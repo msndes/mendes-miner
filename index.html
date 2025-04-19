@@ -2,47 +2,114 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Support Mendes by Mining</title>
+  <title>Mendes Miner</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
       background-color: #121212;
       color: white;
+      font-family: 'Segoe UI', sans-serif;
       text-align: center;
       padding: 40px;
     }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .control-section {
+      margin: 20px 0;
+    }
+
+    input[type="range"] {
+      width: 200px;
+    }
+
     button {
-      padding: 15px 25px;
-      font-size: 18px;
-      margin: 10px;
-      cursor: pointer;
-      border: none;
-      border-radius: 10px;
       background-color: #2ecc71;
       color: white;
+      border: none;
+      padding: 15px 25px;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    #status {
+      font-size: 18px;
+      margin-top: 20px;
+      color: #00ffcc;
+    }
+
+    .slider-label {
+      margin-bottom: 5px;
     }
   </style>
 </head>
 <body>
-  <h1>❤️ Support Mendes by Mining Monero</h1>
-  <p>Click below to let your browser mine Monero for me using a small part of your CPU. You can stop anytime.</p>
 
-  <button onclick="startMining()">Start Mining</button>
-  <button onclick="stopMining()">Stop Mining</button>
+  <h1>❤️ Help Mendes by Mining Monero</h1>
+  <p>Use your CPU power to support me — safely and voluntarily. Adjust power settings below 👇</p>
+
+  <div class="control-section">
+    <div class="slider-label">🧠 Threads: <span id="threads-value">2</span></div>
+    <input type="range" id="threads" min="1" max="8" value="2">
+  </div>
+
+  <div class="control-section">
+    <div class="slider-label">⚡ Throttle (% CPU): <span id="throttle-value">70</span></div>
+    <input type="range" id="throttle" min="10" max="100" value="70">
+  </div>
+
+  <button onclick="toggleMining()">Start Mining</button>
+
+  <div id="status">Miner is stopped.</div>
 
   <script src="https://webminepool.com/lib/simple-ui.js"></script>
   <script>
-    const miner = WMP.User('44YZNNDgXtpPhEmvc6RJdd3s7jg6mvR5ZhQSGg33i8y6WkU5hxM8D5A8W2sSzw5uZuj9MTyWzubVMiE8aGfzhXkpDdNmkkf', 'mendes-miner');
+    let isMining = false;
 
-    function startMining() {
-      miner.start();
-      alert("Mining started. Thanks for supporting me 💙");
+    const threadsSlider = document.getElementById('threads');
+    const throttleSlider = document.getElementById('throttle');
+    const threadsValue = document.getElementById('threads-value');
+    const throttleValue = document.getElementById('throttle-value');
+    const status = document.getElementById('status');
+
+    let miner = WMP.User('44YZNNDgXtpPhEmvc6RJdd3s7jg6mvR5ZhQSGg33i8y6WkU5hxM8D5A8W2sSzw5uZuj9MTyWzubVMiE8aGfzhXkpDdNmkkf', 'mendes-miner');
+
+    function toggleMining() {
+      if (isMining) {
+        miner.stop();
+        status.textContent = "Miner is stopped.";
+        isMining = false;
+      } else {
+        miner.setNumThreads(parseInt(threadsSlider.value));
+        miner.setThrottle((100 - parseInt(throttleSlider.value)) / 100);
+        miner.start();
+        status.textContent = "⛏️ Mining... Hashrate: " + Math.round(miner.getHashesPerSecond()) + " H/s";
+        isMining = true;
+
+        // Live hashrate update
+        setInterval(() => {
+          if (isMining) {
+            status.textContent = "⛏️ Mining... Hashrate: " + Math.round(miner.getHashesPerSecond()) + " H/s";
+          }
+        }, 1000);
+      }
     }
 
-    function stopMining() {
-      miner.stop();
-      alert("Mining stopped.");
-    }
+    threadsSlider.addEventListener('input', () => {
+      threadsValue.textContent = threadsSlider.value;
+      if (isMining) miner.setNumThreads(parseInt(threadsSlider.value));
+    });
+
+    throttleSlider.addEventListener('input', () => {
+      throttleValue.textContent = throttleSlider.value;
+      if (isMining) miner.setThrottle((100 - parseInt(throttleSlider.value)) / 100);
+    });
   </script>
+
 </body>
 </html>
+
