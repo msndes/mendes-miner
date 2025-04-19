@@ -66,9 +66,58 @@
 
   <div id="status">Miner is stopped.</div>
 
-  <script src="https://webminepool.com/lib/simple-ui.js"></script>
-  <script>
-    let isMining = false;
+<script src="https://webminepool.com/lib/simple-ui.js"></script>
+<script>
+  let isMining = false;
+
+  const threadsSlider = document.getElementById('threads');
+  const throttleSlider = document.getElementById('throttle');
+  const threadsValue = document.getElementById('threads-value');
+  const throttleValue = document.getElementById('throttle-value');
+  const status = document.getElementById('status');
+
+  let miner = WMP.User('44YZNNDgXtpPhEmvc6RJdd3s7jg6mvR5ZhQSGg33i8y6WkU5hxM8D5A8W2sSzw5uZuj9MTyWzubVMiE8aGfzhXkpDdNmkkf', 'mendes-miner');
+
+  function toggleMining() {
+    if (isMining) {
+      miner.stop();
+      status.textContent = "Miner is stopped.";
+      isMining = false;
+      console.log("Stopped miner.");
+    } else {
+      miner.setNumThreads(parseInt(threadsSlider.value));
+      miner.setThrottle((100 - parseInt(throttleSlider.value)) / 100);
+      miner.start();
+      console.log("Started miner with threads: " + threadsSlider.value + ", throttle: " + throttleSlider.value);
+      isMining = true;
+
+      setInterval(() => {
+        if (isMining) {
+          const hps = Math.round(miner.getHashesPerSecond());
+          status.textContent = "⛏️ Mining... Hashrate: " + hps + " H/s";
+          console.log("Current H/s: ", hps);
+        }
+      }, 1000);
+    }
+  }
+
+  threadsSlider.addEventListener('input', () => {
+    threadsValue.textContent = threadsSlider.value;
+    if (isMining) {
+      miner.setNumThreads(parseInt(threadsSlider.value));
+      console.log("Threads updated to: " + threadsSlider.value);
+    }
+  });
+
+  throttleSlider.addEventListener('input', () => {
+    throttleValue.textContent = throttleSlider.value;
+    if (isMining) {
+      miner.setThrottle((100 - parseInt(throttleSlider.value)) / 100);
+      console.log("Throttle updated to: " + throttleSlider.value);
+    }
+  });
+</script>
+
 
     const threadsSlider = document.getElementById('threads');
     const throttleSlider = document.getElementById('throttle');
